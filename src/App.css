@@ -1,38 +1,82 @@
-.App {
-  text-align: center;
+:root
+{
+  --light-color: rgb(60, 58, 71);
+  --color: rgb(37, 35, 44);
+  --dark-color: rgb(18, 17, 22);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html, body, .app
+{  
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app
+{
   display: flex;
   flex-direction: column;
+}
+
+header
+{
+  background: var(--dark-color);
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 10px 0;
+}
+
+.download-button
+{
+  background: var(--light-color);
+  color: white;  
+  margin-left: 30px;
+  padding: 15px 20px;
+  font-size: 25px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  transition: background 0.1s;
+}
+
+.download-button:hover
+{
+  background: rgb(90, 87, 109);
+}
+
+.file-name
+{
   color: white;
+  margin-left: 15px;
+  font-size: 25px;
+  font-family: sans-serif;
 }
 
-.App-link {
-  color: #61dafb;
+input
+{
+  background: var(--light-color);
+  color: white;
+  margin-left: 10px;
+  padding: 8px 10px;
+  font-size: 25px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+textarea
+{
+  background: var(--color);
+  color: white;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  margin: 0;
+  padding: 10px 0 0 10px;
+  font-size: 30px;
+  border: none;
+  outline: none;
+  line-height: 30px;
+  font-family: sans-serif;
+  resize: none;  
 }
