@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/online-text-editor/static/css/main.9f6283f3.chunk.css",
-    "main.js": "/online-text-editor/static/js/main.6efdb5aa.chunk.js",
-    "main.js.map": "/online-text-editor/static/js/main.6efdb5aa.chunk.js.map",
-    "runtime-main.js": "/online-text-editor/static/js/runtime-main.88dccab2.js",
-    "runtime-main.js.map": "/online-text-editor/static/js/runtime-main.88dccab2.js.map",
-    "static/js/2.93f45386.chunk.js": "/online-text-editor/static/js/2.93f45386.chunk.js",
-    "static/js/2.93f45386.chunk.js.map": "/online-text-editor/static/js/2.93f45386.chunk.js.map",
-    "static/js/3.d56f5924.chunk.js": "/online-text-editor/static/js/3.d56f5924.chunk.js",
-    "static/js/3.d56f5924.chunk.js.map": "/online-text-editor/static/js/3.d56f5924.chunk.js.map",
+    "main.css": "/online-text-editor/static/css/main.7fd85c8e.chunk.css",
+    "main.js": "/online-text-editor/static/js/main.fe72c24c.chunk.js",
+    "main.js.map": "/online-text-editor/static/js/main.fe72c24c.chunk.js.map",
+    "runtime-main.js": "/online-text-editor/static/js/runtime-main.9e21db98.js",
+    "runtime-main.js.map": "/online-text-editor/static/js/runtime-main.9e21db98.js.map",
+    "static/css/2.6cecdcb8.chunk.css": "/online-text-editor/static/css/2.6cecdcb8.chunk.css",
+    "static/js/2.3adf5776.chunk.js": "/online-text-editor/static/js/2.3adf5776.chunk.js",
+    "static/js/2.3adf5776.chunk.js.map": "/online-text-editor/static/js/2.3adf5776.chunk.js.map",
     "index.html": "/online-text-editor/index.html",
-    "static/css/main.9f6283f3.chunk.css.map": "/online-text-editor/static/css/main.9f6283f3.chunk.css.map",
-    "static/js/2.93f45386.chunk.js.LICENSE.txt": "/online-text-editor/static/js/2.93f45386.chunk.js.LICENSE.txt"
+    "static/css/2.6cecdcb8.chunk.css.map": "/online-text-editor/static/css/2.6cecdcb8.chunk.css.map",
+    "static/css/main.7fd85c8e.chunk.css.map": "/online-text-editor/static/css/main.7fd85c8e.chunk.css.map",
+    "static/js/2.3adf5776.chunk.js.LICENSE.txt": "/online-text-editor/static/js/2.3adf5776.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.88dccab2.js",
-    "static/js/2.93f45386.chunk.js",
-    "static/css/main.9f6283f3.chunk.css",
-    "static/js/main.6efdb5aa.chunk.js"
+    "static/js/runtime-main.9e21db98.js",
+    "static/css/2.6cecdcb8.chunk.css",
+    "static/js/2.3adf5776.chunk.js",
+    "static/css/main.7fd85c8e.chunk.css",
+    "static/js/main.fe72c24c.chunk.js"
   ]
 }
