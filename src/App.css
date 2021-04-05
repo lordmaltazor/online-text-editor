@@ -27,24 +27,6 @@ header
   padding: 10px 0;
 }
 
-.download-button
-{
-  background: var(--light-color);
-  color: white;  
-  margin-left: 30px;
-  padding: 15px 20px;
-  font-size: 25px;
-  border: none;
-  outline: none;
-  border-radius: 10px;
-  transition: background 0.1s;
-}
-
-.download-button:hover
-{
-  background: rgb(90, 87, 109);
-}
-
 .file-name
 {
   color: white;
@@ -65,18 +47,52 @@ input
   border-radius: 10px;
 }
 
+.header-button
+{
+  background: var(--light-color);
+  color: white;  
+  margin-left: 30px;
+  padding: 15px 20px;
+  font-size: 25px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  transition: background 0.1s;
+}
+
+.header-button:hover
+{
+  background: rgb(90, 87, 109);
+}
+
+.main-section
+{
+  display: flex;
+  height: 100%;
+}
+
 textarea
 {
   background: var(--color);
   color: white;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+  width: 100%;
+  height: calc(100% - 15px); /* minus the top padding */
   margin: 0;
-  padding: 10px 0 0 10px;
+  padding: 15px 0 0 20px;
   font-size: 30px;
   border: none;
   outline: none;
   line-height: 30px;
   font-family: sans-serif;
   resize: none;  
+}
+
+.output
+{
+  background: rgb(67, 65, 82);
+  color: white;
+  width: 750px;
+  padding: 10px 0 0 15px;
+  font-size: 30px;
+  font-family: sans-serif;
 }
