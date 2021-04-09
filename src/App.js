@@ -12,18 +12,28 @@ function App() {
     const [output, setOutput] = useState(''); // The output of the users code
     const [error, setError] = useState(false); // Whether or not the was an error in the user's code
 
+    const [showOutput, setShowOutput] = useState(true); // Whether or not the output box is shown
+
+    const openFile = async () => {
+        const options = {
+            types: [
+                {
+                    description: 'Javascript Files',
+                    accept: {
+                        'text/javascript': ['.js'],
+                    },
+                },
+            ],
+        };
+
+        const files = await window.showOpenFilePicker(options);
+        const file = await files[0].getFile();
+        const text = await file.text();
+
+        setCode(text);
+    }
+
     const downloadFile = () => {
-        if (code === '') {
-            alert("Type something in the code editor before downloading your script!");
-
-            return;
-        }
-        else if (filename === '') {
-            alert("You have to choose a name for your script!");
-
-            return;
-        }
-
         downloadAsFile({
             data: code,
             filename: `${filename}.js`
@@ -38,6 +48,8 @@ function App() {
 
             return;
         }
+
+        setShowOutput(true);
 
         try {
             setOutput(eval(code));
@@ -55,23 +67,35 @@ function App() {
         alert("Just type your Javascript in the editor, and you will see the output in the panel to the right. When you're done with the code, you can choose a file name and download the script if you want to.");
     }
 
+    const toggleOutputBox = () => {
+        setShowOutput(!showOutput);
+    }
+
     return (
         <div className="app">
             <header>
-                <p className="file-name">Filename: </p>
-                <input type="text" onChange={(e) => setFilename(e.target.value)} ref={filenameInput} />
+                <button className="header-button" onClick={openFile}>Open File</button>
 
-                <button className="header-button" onClick={downloadFile}>Download File</button>
+                <button className="header-button download-file-button">
+                    <p>Download File</p>
+                    <div className="enter-filename">
+                        <p className="filename">Filename: </p>
+                        <input type="text" onChange={(e) => setFilename(e.target.value)} ref={filenameInput} />
+                        <button className="header-button enter-filename-button" onClick={downloadFile}>Enter</button>
+                    </div>
+                </button>
+
                 <button className="header-button" onClick={() => window.open('https://github.com/lordmaltazor/online-text-editor', '_blank')}>Github</button>
                 <button className="header-button" onClick={help}>Help</button>
                 <button className="header-button" onClick={runCode}>Run</button>
+                <div className="header-spacer"></div>
+                <button className="header-button" onClick={toggleOutputBox}>{showOutput ? 'Hide' : 'Show'}</button>
             </header>
 
             <section className="main-section">
-                {/*<textarea onChange={updateCode} placeholder="Type your Javascript code here!" spellCheck="false"></textarea>*/}
                 <Editor value={code} onChange={setCode} />
 
-                <div className="output" style={{ color: error ? "red" : 'white' }}>{output}</div>
+                {showOutput && <div className="output" style={{ color: error ? "red" : 'white' }}>{output}</div>}
             </section>
         </div>
     );

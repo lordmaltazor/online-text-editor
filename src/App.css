@@ -24,7 +24,64 @@ header
   background: var(--dark-color);
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  padding: 25px 0;
+}
+
+.header-button
+{
+  background: var(--light-color);
+  color: white;  
+  margin: 0 15px;
+  padding: 15px 20px;
+  font-size: 25px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  transition: background 0.1s;
+}
+
+.header-button:hover
+{
+  background: rgb(90, 87, 109);
+}
+
+.header-spacer
+{
+  flex: 1;
+}
+
+.download-file-button p
+{
+  margin: 0;
+}
+
+.enter-filename
+{
+  background: var(--dark-color);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 120px;
+  left: 100px;
+  padding: 20px 25px;
+  opacity: 0;
+  z-index: 100;
+  border-radius: 10px;
+  pointer-events: none;
+  transition: opacity 0.15 ease-out;
+}
+
+.enter-filename-button
+{
+  margin-right: 0;
+  height: 50px;
+  line-height: 20px;
+}
+
+.download-file-button:focus-within .enter-filename
+{ 
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .file-name
@@ -40,30 +97,13 @@ input
   background: var(--light-color);
   color: white;
   width: 250px;
-  margin-left: 10px;
-  padding: 8px 10px;
+  height: 50px;
+  margin-left: 15px;
+  padding: 0 10px;
   font-size: 25px;
   border: none;
   outline: none;
   border-radius: 10px;
-}
-
-.header-button
-{
-  background: var(--light-color);
-  color: white;  
-  margin-left: 30px;
-  padding: 15px 20px;
-  font-size: 25px;
-  border: none;
-  outline: none;
-  border-radius: 10px;
-  transition: background 0.1s;
-}
-
-.header-button:hover
-{
-  background: rgb(90, 87, 109);
 }
 
 .main-section
@@ -98,7 +138,7 @@ input
   background: rgb(67, 65, 82);
   color: white;
   width: 750px;
-  padding: 10px 0 0 15px;
+  padding: 10px 15px 0 15px;
   font-size: 30px;
   font-family: sans-serif;
 }
