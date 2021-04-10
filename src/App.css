@@ -133,6 +133,12 @@ input
   text-indent: 10px;
 }
 
+.output-text
+{
+  color: gray;
+  margin: 5px;
+}
+
 .output
 {
   background: rgb(67, 65, 82);
@@ -141,4 +147,70 @@ input
   padding: 10px 15px 0 15px;
   font-size: 30px;
   font-family: sans-serif;
+}
+
+.help-modal-background
+{
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;  
+}
+
+.help-modal
+{
+  background: rgb(85, 85, 85);
+  position: relative;
+  display: flex;
+  flex-direction: column;  
+  width: 40%;
+  margin: 300px auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.help-modal-title
+{
+  background: rgb(37, 37, 37);
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 20px 0;
+  font-size: 50px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.close-help-modal
+{
+  background: none;
+  color: white;
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  top: 5px;
+  right: 5px;
+  margin: 0;
+  padding: 0;
+  font-size: 35px;
+  font-family: sans-serif;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.close-help-modal:hover
+{
+  transform:rotate(90deg);
+}
+
+.help
+{
+  color: white;
+  margin: 40px 20px;
+  font-size: 30px;
+  font-family: sans-serif;
+  text-align: center;
 }

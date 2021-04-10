@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import downloadAsFile from 'download-as-file';
 import Editor from './Editor';
@@ -13,6 +13,8 @@ function App() {
     const [error, setError] = useState(false); // Whether or not the was an error in the user's code
 
     const [showOutput, setShowOutput] = useState(true); // Whether or not the output box is shown
+
+    const [help, setHelp] = useState(false); // Whether or not the help modal is up or not
 
     const openFile = async () => {
         const options = {
@@ -63,10 +65,6 @@ function App() {
         }
     }
 
-    const help = () => {
-        alert("Just type your Javascript in the editor, and you will see the output in the panel to the right. When you're done with the code, you can choose a file name and download the script if you want to.");
-    }
-
     const toggleOutputBox = () => {
         setShowOutput(!showOutput);
     }
@@ -86,7 +84,7 @@ function App() {
                 </button>
 
                 <button className="header-button" onClick={() => window.open('https://github.com/lordmaltazor/online-text-editor', '_blank')}>Github</button>
-                <button className="header-button" onClick={help}>Help</button>
+                <button className="header-button" onClick={() => setHelp(true)}>Help</button>
                 <button className="header-button" onClick={runCode}>Run</button>
                 <div className="header-spacer"></div>
                 <button className="header-button" onClick={toggleOutputBox}>{showOutput ? 'Hide' : 'Show'}</button>
@@ -95,8 +93,19 @@ function App() {
             <section className="main-section">
                 <Editor value={code} onChange={setCode} />
 
-                {showOutput && <div className="output" style={{ color: error ? "red" : 'white' }}>{output}</div>}
+                {showOutput && <div className="output" style={{ color: error ? "red" : 'white' }}>
+                    <p className="output-text">Output:</p>
+                    {output}
+                </div>}
             </section>
+
+            {help && <div className="help-modal-background" onClick={() => setHelp(false)}>
+                <div className="help-modal">
+                    <p className="help-modal-title">Help</p>
+                    <button className="close-help-modal" onClick={() => setHelp(false)}><i className="fas fa-times"></i></button>
+                    <p className="help">Just type your Javascript in the editor, and you will see the output in the panel to the right. When you're done with the code, you can choose a file name and download the script if you want to.</p>
+                </div>
+            </div>}
         </div>
     );
 }
