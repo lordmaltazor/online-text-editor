@@ -1,10 +1,12 @@
 import React from 'react';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 
-export default function Editor({ value, onChange, linting }) {
+export default function Editor({ value, onChange, language }) {
     const handleChange = (editor, data, value) => {
         onChange(value);
     }
@@ -16,11 +18,11 @@ export default function Editor({ value, onChange, linting }) {
                 value={value}
                 onBeforeChange={handleChange}
                 options={{
-                    mode: linting ? 'javascript' : null,
+                    mode: language === 'text' ? null : language,
                     theme: 'material',
                     fontSize: 20,
                     lint: true,
-                    lineNumbers: linting,
+                    lineNumbers: language !== 'text',
                     lineWrapping: true
                 }}
             />

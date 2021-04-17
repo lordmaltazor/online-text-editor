@@ -1,73 +1,167 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import downloadAsFile from 'download-as-file';
+import Tab from './Tab';
 import Editor from './Editor';
 
 function App() {
-    const filenameInput = useRef(null);
-
-    const [fileHandler, setFileHandler] = useState(null); // The file handler that we use to write to
-    const [fileName, setFileName] = useState(null); // The name of the file we're currently working on
-
-    const [code, setCode] = useState('');
-    const [chosenFileName, setChosenFileName] = useState('');
-    const [fileExtension, setFileExtension] = useState('');
-    const [fileType, setFileType] = useState('');
-
     const [output, setOutput] = useState(''); // The output of the users code
     const [error, setError] = useState(false); // Whether or not the was an error in the user's code
 
     const [showOutput, setShowOutput] = useState(true); // Whether or not the output box is shown
+    const [showWebsiteOutput, setShowWebsiteOutput] = useState(true); // Whether or not the iframe is shown
 
     const [help, setHelp] = useState(false); // Whether or not the help modal is up or not
 
+    class TabClass {
+        constructor(code, fileHandler, fileName, fileExtension, fileType, language) {
+            this.code = code;
+            this.fileHandler = fileHandler;
+            this.fileName = fileName;
+            this.fileExtension = fileExtension;
+            this.fileType = fileType;
+            this.language = language;
+        }
+    }
+
+    const [tabs, setTabs] = useState([new TabClass('', null, 'untitled', '', '', 'text')]);
+    const [currentTab, setCurrentTab] = useState(0); // The index of the tab the user is currently on
+
+    const html = tabs.find(tab => tab.fileExtension === '.html')?.code;
+    const css = tabs.find(tab => tab.fileExtension === '.css')?.code;
+    const javascript = tabs.find(tab => tab.fileExtension === '.js')?.code;
+
+    const [srcDoc, setSrcDoc] = useState('');
+
+    console.log(html);
+    //console.log(srcDoc);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (html !== undefined) {
+                setSrcDoc(`
+                    <html>
+                        <body>${html ? html : ''}</body>
+                        <style>${css ? css : ''}</style>
+                        <script>${javascript ? javascript : ''}</script>
+                    </html>
+                `);
+            }
+            else {
+                setSrcDoc(`
+                <html>
+                    <body><p>You have to have a HTML file open for this to work!</p></body>
+                    <style>
+                    html, body
+                    {
+                        height: 100%;
+                    }
+                    
+                    body
+                    {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                    
+                    p
+                    {
+                        font-size: 30px;
+                        font-family: sans-serif;
+                    }
+                    </style>
+                </html>
+            `);
+            }
+        }, 250)
+
+        return () => clearTimeout(timeout);
+    }, [html, css, javascript])
+
     const fileExtensions = [
         {
-            name: 'Text File',
-            extension: '.txt'
+            name: 'Text file',
+            extension: '.txt',
+            language: 'text'
         },
         {
-            name: 'Javascript File',
-            extension: '.js'
+            name: 'HTML file',
+            extension: '.html',
+            language: 'xml'
+        },
+        {
+            name: 'CSS file',
+            extension: '.css',
+            language: 'css'
+        },
+        {
+            name: 'Javascript file',
+            extension: '.js',
+            language: 'javascript'
         },
     ];
+
+    const updateCode = (value) => {
+        const arr = tabs;
+
+        arr[currentTab].code = value;
+
+        setTabs([...arr]);
+    }
 
     const getFileExtension = (string) => {
         return string.split('.')[1];
     }
 
     // This is ran when we create a new file handler, like opening a file or clicking 'save as'
-    const processFileHandler = (handler) => {
-        setFileHandler(handler);
-        setFileName(handler.name);
-
+    const createNewTab = (code, handler) => {
         const extension = '.' + getFileExtension(handler.name);
-        const fileTypeName = fileExtensions.find((object) => object.extension === extension).name;
-        setFileExtension(extension);
-        setFileType(fileTypeName);
+
+        const correctFileExtension = fileExtensions.find((object) => object.extension === extension);
+        const fileTypeName = correctFileExtension.name;
+        const fileLanguage = correctFileExtension.language;
+
+        return (new TabClass(code, handler, handler.name, extension, fileTypeName, fileLanguage));
+    }
+
+    const closeTab = (index) => {
+        const arr = tabs;
+
+        arr.splice(index, 1);
+
+        setCurrentTab(0);
+
+        setTabs([...arr]);
     }
 
     const newFile = async () => {
-        setFileHandler(null); // The file handler that we use to write to
-        setFileName(null); // The name of the file we're currently working on
+        setTabs([...tabs, new TabClass('', null, 'untitled', '', '', 'text')]);
 
-        setFileExtension('');
-        setFileType('');
-
-        setCode('');
+        setCurrentTab(tabs.length);
     }
 
     const openFile = async () => {
         const options = {
-            types: [
+            types: [ // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
                 {
-                    description: 'Text Files',
+                    description: 'Text files',
                     accept: {
                         'text/plain': ['.txt'],
                     },
                 },
                 {
-                    description: 'Javascript Files',
+                    description: 'HTML files',
+                    accept: {
+                        'text/html': ['.js'],
+                    },
+                },
+                {
+                    description: 'CSS files',
+                    accept: {
+                        'text/css': ['.js'],
+                    },
+                },
+                {
+                    description: 'Javascript files',
                     accept: {
                         'text/javascript': ['.js'],
                     },
@@ -79,19 +173,19 @@ function App() {
         const file = await files[0].getFile();
         const text = await file.text();
 
-        processFileHandler(files[0]);
+        setTabs([...tabs, createNewTab(text, files[0])]);
 
-        setCode(text);
+        setCurrentTab(tabs.length);
     }
 
     const saveFile = async () => {
         // If there is a file handler (i.e we have already saved a file) we just update that file,
         // If not we make a new 'save as' prompt
-        if (fileHandler) {
+        if (tabs[currentTab].fileHandler) {
             // Save
-            const writable = await fileHandler.createWritable(); // Create a new writable stream
+            const writable = await tabs[currentTab].fileHandler.createWritable(); // Create a new writable stream
 
-            const blob = new Blob([code]);
+            const blob = new Blob([tabs[currentTab].code]);
 
             await writable.write(blob);
 
@@ -102,31 +196,26 @@ function App() {
             const handler = await window.showSaveFilePicker();
             const writable = await handler.createWritable();
 
-            await writable.write(code);
+            await writable.write(tabs[currentTab].code);
 
             await writable.close();
 
-            processFileHandler(handler);
+            const arr = tabs;
+
+            arr[currentTab] = createNewTab(tabs[currentTab].code, handler);
+
+            setTabs([...arr]);
         }
     }
 
-    const downloadFile = () => {
-        downloadAsFile({
-            data: code,
-            filename: `${chosenFileName}.js`
-        })
-
-        filenameInput.current.value = '';
-    }
-
     const runCode = () => {
-        if (code === '') {
+        if (tabs[currentTab].code === '') {
             alert("Type something in the code editor before running your code!");
 
             return;
         }
-        else if (fileExtension !== '.js') {
-            alert(`Sorry, you can only run Javascript files! This is a ${fileType}`);
+        else if (tabs[currentTab].fileExtension !== '.js') {
+            alert(`Sorry, you can only run Javascript files! This is a ${tabs[currentTab].fileType}`);
 
             return;
         }
@@ -134,7 +223,7 @@ function App() {
         setShowOutput(true);
 
         try {
-            setOutput(eval(code));
+            setOutput(eval(tabs[currentTab].code));
             setError(false);
         }
         catch (err) {
@@ -152,42 +241,52 @@ function App() {
     return (
         <div className="app">
             <header>
-                <button className="header-button file-dropdown-button">
+                <button className="button header-button file-dropdown-button">
                     <p>File</p>
                     <div className="file-dropdown">
-                        <button className="header-button file-dropdown-item" onClick={newFile}>New File</button>
-                        <button className="header-button file-dropdown-item" onClick={openFile}>Open File</button>
-                        <button className="header-button file-dropdown-item" onClick={saveFile}>Save{!fileHandler && ' As'} File</button>
+                        <button className="button header-button file-dropdown-item" onClick={newFile}>New File</button>
+                        <button className="button header-button file-dropdown-item" onClick={openFile}>Open File</button>
+                        <button className="button header-button file-dropdown-item" onClick={saveFile}>Save{!tabs[currentTab].fileHandler && ' As'} File</button>
                     </div>
                 </button>
 
-                <button className="header-button download-file-button">
-                    <p>Download File</p>
-                    <div className="enter-filename">
-                        <p className="filename">Filename: </p>
-                        <input type="text" onChange={(e) => setChosenFileName(e.target.value)} ref={filenameInput} />
-                        <button className="header-button enter-filename-button" onClick={downloadFile}>Enter</button>
-                    </div>
-                </button>
-
-                <button className="header-button" onClick={() => window.open('https://github.com/lordmaltazor/online-text-editor', '_blank')}>Github</button>
-                <button className="header-button" onClick={() => setHelp(true)}>Help</button>
-                <button className="header-button" onClick={runCode}>Run</button>
+                <button className="button header-button" onClick={() => window.open('https://github.com/lordmaltazor/online-text-editor', '_blank')}>Github</button>
+                <button className="button header-button" onClick={() => setHelp(true)}>Help</button>
+                <button className="button header-button" onClick={runCode}>Run</button>
                 <div className="header-spacer"></div>
-                <button className="header-button" onClick={toggleOutputBox}>{showOutput ? 'Hide' : 'Show'}</button>
+                <button className="button header-button" onClick={toggleOutputBox}>{showOutput ? 'Hide' : 'Show'} output</button>
             </header>
 
-            <section className="main-section">
-                <Editor value={code} onChange={setCode} linting={fileHandler === null || fileExtension !== '.txt'} />
+            <div className="tabs">
+                {tabs.map((tab, index) => <Tab key={index} name={tab.fileName} onClick={() => tabs[index] && setCurrentTab(index)} close={() => closeTab(index)} isCurrent={currentTab === index} isLast={tabs.length > 1} />)}
+            </div>
 
-                {showOutput && <div className="output" style={{ color: error ? "red" : 'white' }}>
-                    <p className="output-text">Output:</p>
-                    {output}
+            <section className="main-section">
+                <div className="horizontal-main-section">
+                    <Editor value={tabs[currentTab].code} onChange={(value) => updateCode(value)} language={tabs[currentTab].language} />
+
+                    {showOutput && <div className="output" style={{ color: error ? "red" : 'white' }}>
+                        <p className="output-text">Output:</p>
+                        {output}
+                    </div>}
+                </div>
+
+                {showWebsiteOutput && <div className="website-output">
+                    <iframe
+                        title="output"
+                        srcDoc={srcDoc}
+                        sandbox="allow-scripts"
+                        frameBorder="0"
+                        width="100%"
+                        height="100%"
+                    />
                 </div>}
             </section>
 
             <div className="status-bar">
-                <p className="current-file">{fileName} {fileName && '|'} {fileType}</p>
+                <p className="current-file">{tabs[currentTab].fileName} {tabs[currentTab].fileName && tabs[currentTab].fileType && '|'} {tabs[currentTab].fileType}</p>
+                <div className="status-bar-spacer"></div>
+                <button className="button toggle-iframe-button" onClick={() => setShowWebsiteOutput(!showWebsiteOutput)}>{showWebsiteOutput ? 'Hide preview' : 'Show preview'}</button>
             </div>
 
             {help && <div className="help-modal-background" onClick={() => setHelp(false)}>
