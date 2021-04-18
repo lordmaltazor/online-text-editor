@@ -3,6 +3,8 @@
   --light-color: rgb(60, 58, 71);
   --color: rgb(37, 35, 44);
   --dark-color: rgb(18, 17, 22);
+  
+  --editor-font-size: 20px;
 }
 
 html, body, .app
@@ -24,7 +26,7 @@ header
   background: var(--dark-color);
   display: flex;
   align-items: center;
-  padding: 25px 0;
+  padding: 20px 0;
 }
 
 .button
@@ -106,7 +108,7 @@ input
 {
   background: var(--dark-color);
   display: flex;
-  height: 60px;
+  height: 75px;
 }
 
 .tab
@@ -162,7 +164,7 @@ input
 .horizontal-main-section
 {
   display: flex;
-  flex: 1.25;
+  flex: 1;
 }
 
 .editor-container
@@ -181,12 +183,12 @@ input
 
 .CodeMirror
 {
+  font-size: var(--editor-font-size);
   flex-grow: 1;
-  font-size: 25px;
   text-indent: 10px;
 }
 
-.output
+.console
 {
   background: rgb(67, 65, 82);
   color: white;
@@ -196,13 +198,13 @@ input
   font-family: sans-serif;
 }
 
-.output-text
+.console-text
 {
   color: gray;
   margin: 5px;
 }
 
-.website-output
+.website-preview
 {
   flex: 1;  
   border-top: 8px solid var(--dark-color);
@@ -222,7 +224,7 @@ input
   position: absolute;
   color: gray;
   left: 15px;
-  font-size: 25px;
+  font-size: 26px;
   text-align: left;
   font-family: sans-serif;
 }
@@ -239,7 +241,7 @@ input
   padding: 8px 20px;
 }
 
-.help-modal-background
+.black-overlay
 {
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -272,7 +274,7 @@ input
   text-align: center;
 }
 
-.close-help-modal
+.close-button
 {
   background: none;
   color: white;
@@ -291,7 +293,7 @@ input
   transition: transform 0.2s ease-in-out;
 }
 
-.close-help-modal:hover
+.close-button:hover
 {
   transform:rotate(90deg);
 }
@@ -303,4 +305,72 @@ input
   font-size: 30px;
   font-family: sans-serif;
   text-align: center;
+}
+
+.settings-menu
+{
+  background: rgb(85, 85, 85);
+  position: relative;
+  display: flex;
+  flex-direction: column;  
+  align-items: center;
+  width: 40%;
+  margin: 300px auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.settings-menu-title
+{
+  background: rgb(37, 37, 37);
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 20px 0;
+  font-size: 50px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.setting-text
+{
+  color: white;
+  margin: 20px 0 0 0;
+  font-size: 25px;
+  font-family: sans-serif;
+}
+
+.slider {
+  -webkit-appearance: none;  
+  appearance: none;
+  background: #d3d3d3; 
+  width: 50%; 
+  height: 25px; 
+  margin: 10px 0 20px 0;
+  padding: 0;
+  outline: none; 
+  border-radius: 100px;
+  opacity: 0.7; 
+  transition: opacity .1s;
+}
+
+.slider:hover {
+  opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  background: var(--dark-color); 
+  width: 35px; 
+  height: 35px; 
+  cursor: pointer; 
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  background: var(--dark-color); 
+  width: 25px; 
+  height: 25px;
+  cursor: pointer; 
 }
