@@ -210,6 +210,11 @@ input
   border-top: 8px solid var(--dark-color);
 }
 
+iframe
+{
+  background: white;
+}
+
 .status-bar
 {
   background: var(--dark-color);

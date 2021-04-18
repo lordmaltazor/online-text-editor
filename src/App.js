@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Tab from './comps/Tab';
 import Editor from './comps/Editor';
@@ -8,6 +8,8 @@ import defaultPreview from './DefaultPreview';
 import CloseButton from './comps/CloseButton';
 
 function App() {
+    const iframe = useRef(null);
+
     const [output, setOutput] = useState(''); // The output of the users code
     const [error, setError] = useState(false); // Whether or not the was an error in the user's code
 
@@ -24,13 +26,14 @@ function App() {
     root.style.setProperty('--editor-font-size', `${fontSize}px`);
 
     class TabClass {
-        constructor(code, fileHandler, fileName, fileExtension, fileType, language) {
+        constructor(code, fileHandler, fileName, fileExtension, fileType, language, modified) {
             this.code = code;
             this.fileHandler = fileHandler;
             this.fileName = fileName;
             this.fileExtension = fileExtension;
             this.fileType = fileType;
             this.language = language;
+            this.modified = modified;
         }
     }
 
@@ -66,6 +69,7 @@ function App() {
         const arr = tabs;
 
         arr[currentTab].code = value;
+        arr[currentTab].modified = true;
 
         setTabs([...arr]);
     }
@@ -112,6 +116,12 @@ function App() {
     }
 
     const saveFile = async () => {
+        const arr = tabs;
+
+        arr[currentTab].modified = false;
+
+        setTabs([...arr]);
+
         // If there is a file handler (i.e we have already saved a file) we just update that file,
         // If not we make a new 'save as' prompt
         if (tabs[currentTab].fileHandler) {
@@ -188,7 +198,7 @@ function App() {
             </header>
 
             <div className="tabs">
-                {tabs.map((tab, index) => <Tab key={index} name={tab.fileName} onClick={() => tabs[index] && setCurrentTab(index)} close={() => closeTab(index)} isCurrent={currentTab === index} isLast={tabs.length > 1} />)}
+                {tabs.map((tab, index) => <Tab key={index} name={tab.fileName} onClick={() => tabs[index] && setCurrentTab(index)} close={() => closeTab(index)} isCurrent={currentTab === index} isLast={tabs.length > 1} modified={tab.modified} />)}
             </div>
 
             <section className="main-section">
@@ -205,8 +215,11 @@ function App() {
                     <iframe
                         title="output"
                         srcDoc={srcDoc}
+                        ref={iframe}
                         sandbox="allow-scripts"
                         frameBorder="0"
+                        allowFullScreen
+                        webkitallowfullscreen
                         width="100%"
                         height="100%"
                     />
@@ -216,6 +229,7 @@ function App() {
             <div className="status-bar">
                 <p className="current-file">{tabs[currentTab].fileName} {tabs[currentTab].fileName && '|'} {tabs[currentTab].fileType || 'Text file'}</p>
                 <div className="status-bar-spacer"></div>
+                <button className="button toggle-iframe-button" onClick={() => iframe.current.requestFullscreen()}>Go fullscreen</button>
                 <button className="button toggle-iframe-button" onClick={() => setShowWebsitePreview(!showWebsitePreview)}>{showWebsitePreview ? 'Hide preview' : 'Show preview'}</button>
             </div>
 
