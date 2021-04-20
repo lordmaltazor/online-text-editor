@@ -20,10 +20,14 @@ function App() {
 
     const [settingsMenu, setSettingsMenu] = useState(false);
 
-    const [fontSize, setFontSize] = useState(30);
+    // Settings
+    const [fontSize, setFontSize] = useState(localStorage.getItem('fontSize') || 22);
+    const [editorTheme, setEditorTheme] = useState(localStorage.getItem('editorTheme') || 'material');
 
     const root = document.querySelector(':root');
     root.style.setProperty('--editor-font-size', `${fontSize}px`);
+
+    console.log(editorTheme);
 
     class TabClass {
         constructor(code, fileHandler, fileName, fileExtension, fileType, language, modified) {
@@ -45,6 +49,11 @@ function App() {
     const javascript = tabs.find(tab => tab.fileExtension === '.js')?.code;
 
     const [srcDoc, setSrcDoc] = useState('');
+
+    useEffect(() => {
+        localStorage.setItem('fontSize', fontSize);
+        localStorage.setItem('editorTheme', editorTheme);
+    }, [fontSize, editorTheme])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -203,7 +212,7 @@ function App() {
 
             <section className="main-section">
                 <div className="horizontal-main-section">
-                    <Editor value={tabs[currentTab].code} onChange={(value) => updateCode(value)} language={tabs[currentTab].language} />
+                    <Editor value={tabs[currentTab].code} onChange={(value) => updateCode(value)} language={tabs[currentTab].language} theme={editorTheme} />
 
                     {showConsole && <div className="console" style={{ color: error ? "red" : 'white' }}>
                         <p className="console-text">Output:</p>
@@ -218,8 +227,6 @@ function App() {
                         ref={iframe}
                         sandbox="allow-scripts"
                         frameBorder="0"
-                        allowFullScreen
-                        webkitallowfullscreen
                         width="100%"
                         height="100%"
                     />
@@ -249,6 +256,15 @@ function App() {
 
                     <p className="setting-text">Text size: {fontSize}</p>
                     <input className="slider" value={fontSize} onInput={(e) => setFontSize(e.target.value)} type="range" min="15" max="50" />
+
+                    <p className="setting-text">Editor theme: {editorTheme === 'material' ? 'Dark' : 'Light'}</p>
+                    <div className="select-container">
+                        <select value={editorTheme} onChange={(e) => setEditorTheme(e.target.value)}>
+                            <option value="material">Dark theme</option>
+                            <option value="default">Light theme</option>
+                        </select>
+                        <i className="fas fa-chevron-down"></i>
+                    </div>
                 </div>
             </div>}
         </div >
