@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/online-text-editor/static/css/main.6aade892.chunk.css",
-    "main.js": "/online-text-editor/static/js/main.04dd1a45.chunk.js",
-    "main.js.map": "/online-text-editor/static/js/main.04dd1a45.chunk.js.map",
+    "main.css": "/online-text-editor/static/css/main.777f2063.chunk.css",
+    "main.js": "/online-text-editor/static/js/main.1ab2af1b.chunk.js",
+    "main.js.map": "/online-text-editor/static/js/main.1ab2af1b.chunk.js.map",
     "runtime-main.js": "/online-text-editor/static/js/runtime-main.9e21db98.js",
     "runtime-main.js.map": "/online-text-editor/static/js/runtime-main.9e21db98.js.map",
     "static/css/2.6cecdcb8.chunk.css": "/online-text-editor/static/css/2.6cecdcb8.chunk.css",
@@ -10,14 +10,14 @@
     "static/js/2.8a27904b.chunk.js.map": "/online-text-editor/static/js/2.8a27904b.chunk.js.map",
     "index.html": "/online-text-editor/index.html",
     "static/css/2.6cecdcb8.chunk.css.map": "/online-text-editor/static/css/2.6cecdcb8.chunk.css.map",
-    "static/css/main.6aade892.chunk.css.map": "/online-text-editor/static/css/main.6aade892.chunk.css.map",
+    "static/css/main.777f2063.chunk.css.map": "/online-text-editor/static/css/main.777f2063.chunk.css.map",
     "static/js/2.8a27904b.chunk.js.LICENSE.txt": "/online-text-editor/static/js/2.8a27904b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9e21db98.js",
     "static/css/2.6cecdcb8.chunk.css",
     "static/js/2.8a27904b.chunk.js",
-    "static/css/main.6aade892.chunk.css",
-    "static/js/main.04dd1a45.chunk.js"
+    "static/css/main.777f2063.chunk.css",
+    "static/js/main.1ab2af1b.chunk.js"
   ]
 }
